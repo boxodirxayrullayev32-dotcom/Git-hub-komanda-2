@@ -1,0 +1,21 @@
+# Azamat / Азамат — Topshiriq / Задание
+
+## Sizga berilgan page lar / Ваши страницы:
+
+### 1. Home Page (`src/pages/Home.jsx`)
+- O'zb: Bosh sahifa UI ni Figma asosida yozing
+- Рус: Сверстать UI главной страницы по Figma
+- Route: `/`
+
+### 2. Navbat Olish (`src/pages/NavbatOlish.jsx`)
+- O'zb: Navbat olish sahifasi UI ni Figma asosida yozing
+- Рус: Сверстать UI страницы очереди по Figma
+- Route: `/navbat-olish`
+
+## Yo'riqnoma / Инструкция
+- `src/pages/` papkasidagi fayllarni tahrirlang / Редактируйте файлы в папке `src/pages/`
+- Hech qanday yangi fayl yaratmang / Не создавайте новые файлы
+- Router va header tayyor, siz faqat UI ni qilasiz / Роутер и хедер готовы, вы делаете только UI
+- Tailwind CSS dan foydalaning / Используйте Tailwind CSS
+- Barcha page lar `src/App.jsx` da ulangan / Все страницы подключены в `src/App.jsx`
+- `npm run dev` orqali ishga tushiring / Запустите через `npm run dev`
