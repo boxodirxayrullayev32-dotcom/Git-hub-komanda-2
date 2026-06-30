@@ -1,18 +1,8 @@
-import { useState } from 'react';
-
-const NavbatOlish = () => {
-  return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <h1 className="text-3xl font-bold text-gray-800">Navbat Olish</h1>
-      <p className="text-gray-600 mt-2">Navbat olish sahifasi — UI ni shu yerga yozing</p>
-    </div>
-  ) 
-}
 import React, { useState } from 'react';
 
 const NavbatOlish = () => {
   // Forma elementlari uchun state-lar
-  const [selectedStation, setSelectedStation] = useState('Chilonzor CTG'); // Shahopcha uchun yangi state
+  const [selectedStation, setSelectedStation] = useState('Chilonzor CTG'); 
   const [selectedModel, setSelectedModel] = useState('Gentra');
   const [customModel, setCustomModel] = useState('');
   const [plateNumber, setPlateNumber] = useState('');
@@ -28,7 +18,7 @@ const NavbatOlish = () => {
     { id: 'Yashnobod Pro', name: 'Yashnobod Propan Gas', location: 'Yashnobod tuzel' },
   ];
 
-  // JONLI NAVBAT RO'YXATI (Dastlabki mashinalarga ham shahopcha manzillari biriktirildi)
+  // JONLI NAVBAT RO'YXATI
   const [userBookings, setUserBookings] = useState([
     {
       id: 1,
@@ -150,7 +140,7 @@ const NavbatOlish = () => {
       id: Date.now(), 
       type: 'user-added',
       label: `${nextQueueIndex}-NAVBAT`,
-      station: selectedStation, // Tanlangan shahopcha
+      station: selectedStation, 
       model: finalModel,
       plate: plateNumber.toUpperCase(),
       fuel: selectedFuel,
@@ -185,7 +175,7 @@ const NavbatOlish = () => {
 
           <form onSubmit={handleBooking} className="bg-[#0b1b3d]/40 border border-gray-800 rounded-3xl p-6 space-y-6">
             
-            {/* NEW: 1. Qaysi shahopchadan quyishni tanlash */}
+            {/* Shahopcha tanlash */}
             <div>
               <label className="text-[11px] text-gray-400 font-bold uppercase tracking-wider block mb-2">
                 ZAPRAVKA SHAHOPCHASINI TANLANG
@@ -210,7 +200,7 @@ const NavbatOlish = () => {
               </div>
             </div>
 
-            {/* 2. Avtomobil Modeli */}
+            {/* Avtomobil Modeli */}
             <div>
               <label className="text-[11px] text-gray-400 font-bold uppercase tracking-wider block mb-3">
                 AVTOMOBIL MODELI
@@ -236,7 +226,7 @@ const NavbatOlish = () => {
               </div>
             </div>
 
-            {/* Dinamik Model kiritish inputi */}
+            {/* Dinamik Model inputi */}
             {selectedModel === 'Boshqa' && (
               <div className="animate-fadeIn">
                 <label className="text-[11px] text-gray-400 font-bold uppercase tracking-wider block mb-2">
@@ -252,7 +242,7 @@ const NavbatOlish = () => {
               </div>
             )}
 
-            {/* 3. Davlat Raqami */}
+            {/* Davlat Raqami */}
             <div>
               <label className="text-[11px] text-gray-400 font-bold uppercase tracking-wider block mb-2">
                 DAVLAT RAQAMI
@@ -266,7 +256,7 @@ const NavbatOlish = () => {
               />
             </div>
 
-            {/* 4. Yoqilg'i turi */}
+            {/* Yoqilg'i turi */}
             <div>
               <label className="text-[11px] text-gray-400 font-bold uppercase tracking-wider block mb-3">
                 YOQILG'I TURI
@@ -290,7 +280,7 @@ const NavbatOlish = () => {
               </div>
             </div>
 
-            {/* 5. Kolonka */}
+            {/* Kolonka */}
             <div>
               <label className="text-[11px] text-gray-400 font-bold uppercase tracking-wider block mb-3">
                 ZAPRAVKA KOLONKASINI TANLANG
@@ -323,7 +313,7 @@ const NavbatOlish = () => {
               </div>
             </div>
 
-            {/* 6. Vaqt */}
+            {/* Vaqt */}
             <div>
               <label className="text-[11px] text-gray-400 font-bold uppercase tracking-wider block mb-3">
                 YETIB KELISH VAQTI
@@ -371,12 +361,11 @@ const NavbatOlish = () => {
               <h3 className="text-lg font-bold text-white">Jonli Navbat</h3>
               <span className="bg-gray-800/60 border border-gray-800 text-[10px] text-gray-400 px-2.5 py-1 rounded-full font-medium">
                 Sizdan oldin {userBookings.filter(b => b.status === 'waiting').length} mashina bor
-              </span>
+              </span >
             </div>
 
             <div className="relative pl-6 border-l border-emerald-500/30 space-y-4 py-2">
               
-              {/* DINAMIK JONLI NAVBATLAR RO'YXATI */}
               {userBookings.map((booking, index) => {
                 const isArrived = booking.status === 'arrived';
                 
@@ -417,12 +406,10 @@ const NavbatOlish = () => {
                         <span className="text-[10px] bg-slate-800/80 text-gray-400 px-2 py-0.5 rounded font-mono">{booking.time}</span>
                       </div>
                       
-                      {/* NEW: Tanlangan Shahopcha manzili belgisi */}
                       <div className="text-[10px] text-blue-400 font-semibold mt-0.5 flex items-center gap-1">
                         <span>📍</span> {booking.station}
                       </div>
                       
-                      {/* Mashina nomi va Yoqilg'i turi */}
                       <div className="flex items-center justify-between mt-1">
                         <div className="text-sm font-bold text-white">{booking.model}</div>
                         <span className={`text-[10px] px-1.5 py-0.5 font-bold rounded border ${fuelColors[booking.fuel] || 'bg-gray-800 text-gray-400'}`}>
@@ -433,7 +420,6 @@ const NavbatOlish = () => {
 
                       <div className="text-[11px] text-gray-400 mt-1 font-mono">{booking.plate} • Kolonka #{booking.kolonka}</div>
                       
-                      {/* Boshqaruv tugmalari */}
                       {booking.status === 'waiting' && (
                         <div className="flex gap-2 mt-3 pt-2 border-t border-gray-800/40">
                           <button
