@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
+import { QueueProvider } from './context/QueueContext'
 import Layout from './components/Layout'
 import Registration from './pages/Registration'
 import Profile from './pages/Profile'
@@ -24,6 +25,7 @@ const App = () => {
   if (!registered) return <Registration onRegister={handleRegister} />
 
   return (
+    <QueueProvider>
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
         <Route element={<Layout />}>
@@ -40,6 +42,7 @@ const App = () => {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </AnimatePresence>
+    </QueueProvider>
   )
 }
 

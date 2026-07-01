@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'
+import { useQueue } from '../context/QueueContext'
 
 const NavbatOlish = () => {
+  const navigate = useNavigate()
+  const { addQueue } = useQueue()
   // Forma elementlari uchun state-lar
   const [selectedStation, setSelectedStation] = useState('Chilonzor CTG'); 
   const [selectedModel, setSelectedModel] = useState('Gentra');
@@ -150,8 +154,10 @@ const NavbatOlish = () => {
     };
 
     setUserBookings([...userBookings, newBooking]);
+    addQueue(newBooking)
     setPlateNumber('');
     setCustomModel('');
+    navigate('/mening-navbatlarim')
   };
 
   const handleArrived = (id) => {
