@@ -212,7 +212,7 @@ const Home = () => {
       {/* ===== FILTER TABS ===== */}
       <div className="max-w-7xl mx-auto px-4 mb-4">
         <div className="flex items-center gap-2 flex-wrap">
-          <button onClick={() => { setSelectedFuel('all'); clearSearch(); }}
+          <button onClick={() => { setSelectedFuel('all'); clearSearch(true); }}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
               selectedFuel === 'all' ? 'bg-gray-500/30 text-white border border-gray-500/40' : 'bg-gray-800/40 text-gray-400 hover:text-white border border-transparent'
             }`}>
@@ -254,7 +254,7 @@ const Home = () => {
               />
               <div className="flex items-center gap-1 pr-2">
                 {searchQuery && (
-                  <button onClick={clearSearch}
+                  <button onClick={() => clearSearch(false)}
                     className="text-gray-500 hover:text-white bg-gray-800/60 hover:bg-gray-700/60 px-2 py-1 rounded-lg text-[10px] font-medium transition-all flex items-center gap-1">
                     <X className="w-3 h-3" /> Tozalash
                   </button>
