@@ -110,7 +110,7 @@ const Aloqa = () => {
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="min-h-screen bg-gray-50"
+      className="min-h-screen bg-[#071126] text-white"
     >
       {/* Hero */}
       <motion.div
@@ -126,7 +126,7 @@ const Aloqa = () => {
           <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4 tracking-tight">
             Biz bilan bog‘laning
           </h1>
-          <p className="text-gray-300 text-lg max-w-2xl mx-auto leading-relaxed">
+          <p className="text-gray-400 text-lg max-w-2xl mx-auto leading-relaxed">
             Navbatol.uz – benzin va metan quyish shahobchalari tarmog‘i.
             Savol va takliflaringizni biz bilan ulashing!
           </p>
@@ -141,7 +141,7 @@ const Aloqa = () => {
         {contactInfo.map((item, i) => (
           <div
             key={i}
-            className="bg-white rounded-2xl shadow-lg p-6 flex items-start gap-4 hover:shadow-xl transition-shadow"
+            className="bg-[#0e1a33]/60 rounded-2xl border border-gray-800/40 p-6 flex items-start gap-4 hover:border-gray-700/60 transition-all"
           >
             <div
               className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 text-white"
@@ -150,16 +150,16 @@ const Aloqa = () => {
               {item.icon}
             </div>
             <div>
-              <p className="text-sm text-gray-500">{item.title}</p>
+              <p className="text-sm text-gray-400">{item.title}</p>
               {item.href ? (
                 <a
                   href={item.href}
-                  className="text-gray-800 font-semibold hover:text-yellow-600 transition-colors"
+                  className="text-white font-semibold hover:text-emerald-400 transition-colors"
                 >
                   {item.value}
                 </a>
               ) : (
-                <p className="text-gray-800 font-semibold">{item.value}</p>
+                <p className="text-white font-semibold">{item.value}</p>
               )}
             </div>
           </div>
@@ -170,13 +170,13 @@ const Aloqa = () => {
       <div className="max-w-7xl mx-auto px-4 py-16 grid lg:grid-cols-2 gap-10">
         {/* Contact Form */}
         <motion.div variants={itemVariants}>
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">Xabar qoldiring</h2>
-          <p className="text-gray-500 mb-6">
+          <h2 className="text-2xl font-bold text-white mb-2">Xabar qoldiring</h2>
+          <p className="text-gray-400 mb-6">
             Savol yoki taklifingiz bo‘lsa, quyidagi formani to‘ldiring.
           </p>
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-300 mb-1">
                 Ismingiz
               </label>
               <input
@@ -186,11 +186,11 @@ const Aloqa = () => {
                 onChange={handleChange}
                 required
                 placeholder="Ismingizni kiriting"
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 outline-none transition-all"
+                className="w-full px-4 py-3 rounded-xl bg-[#0a1628]/90 border border-gray-700/60 text-white placeholder-gray-500 focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/10 outline-none transition-all"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-300 mb-1">
                 Telefon raqam
               </label>
               <input
@@ -200,11 +200,11 @@ const Aloqa = () => {
                 onChange={handleChange}
                 required
                 placeholder="+998 90 123 45 67"
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 outline-none transition-all"
+                className="w-full px-4 py-3 rounded-xl bg-[#0a1628]/90 border border-gray-700/60 text-white placeholder-gray-500 focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/10 outline-none transition-all"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-300 mb-1">
                 Xabar matni
               </label>
               <textarea
@@ -214,13 +214,12 @@ const Aloqa = () => {
                 required
                 rows={4}
                 placeholder="Xabaringizni yozing..."
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 outline-none transition-all resize-none"
+                className="w-full px-4 py-3 rounded-xl bg-[#0a1628]/90 border border-gray-700/60 text-white placeholder-gray-500 focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/10 outline-none transition-all resize-none"
               />
             </div>
             <button
               type="submit"
-              className="w-full py-3 rounded-xl text-white font-semibold text-lg transition-all hover:scale-[1.02] active:scale-[0.98]"
-              style={{ backgroundColor: '#031427' }}
+              className="w-full py-3 rounded-xl text-white font-semibold text-lg transition-all hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 shadow-lg shadow-emerald-500/20"
             >
               {sent ? 'O‘tish amalga oshirildi...' : 'Yuborish'}
             </button>
@@ -230,15 +229,15 @@ const Aloqa = () => {
         {/* Branches */}
         <motion.div variants={itemVariants} className="space-y-6">
           <div>
-            <h2 className="text-2xl font-bold text-gray-800 mb-2">Shahobchalarimiz</h2>
-            <p className="text-gray-500 mb-6">
+            <h2 className="text-2xl font-bold text-white mb-2">Shahobchalarimiz</h2>
+            <p className="text-gray-400 mb-6">
               Benzin va metan quyish shahobchalarimiz manzillari.
             </p>
           </div>
           {branches.map((branch, i) => (
             <div
               key={i}
-              className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-all hover:scale-[1.02]"
+              className="bg-[#0e1a33]/60 rounded-2xl border border-gray-800/40 overflow-hidden hover:border-gray-700/60 transition-all hover:scale-[1.02]"
             >
               <div className="flex flex-col sm:flex-row">
                 <div className="sm:w-36 lg:w-40 shrink-0 overflow-hidden">
@@ -251,7 +250,7 @@ const Aloqa = () => {
                 </div>
                 <div className="flex-1 p-5">
                   <div className="flex items-start justify-between mb-2">
-                    <h3 className="text-base font-bold text-gray-800">{branch.name}</h3>
+                    <h3 className="text-base font-bold text-white">{branch.name}</h3>
                     <span
                       className="text-xs font-semibold px-3 py-0.5 rounded-full text-white shrink-0 ml-2"
                       style={{ backgroundColor: '#031427' }}
@@ -259,7 +258,7 @@ const Aloqa = () => {
                       {i === 0 ? 'Asosiy' : 'Filial'}
                     </span>
                   </div>
-                  <div className="space-y-1.5 text-sm text-gray-600 mb-3">
+                  <div className="space-y-1.5 text-sm text-gray-300 mb-3">
                     <p className="flex items-center gap-2">
                       <svg className="w-4 h-4 shrink-0 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -269,7 +268,7 @@ const Aloqa = () => {
                     </p>
                     <a
                       href={`tel:${branch.phone.replace(/\s/g, '')}`}
-                      className="flex items-center gap-2 hover:text-yellow-600 transition-colors"
+                      className="flex items-center gap-2 hover:text-emerald-400 transition-colors"
                     >
                       <svg className="w-4 h-4 shrink-0 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
@@ -281,7 +280,7 @@ const Aloqa = () => {
                     {branch.services.map((s, j) => (
                       <span
                         key={j}
-                        className="text-xs px-2.5 py-0.5 rounded-full bg-yellow-50 text-yellow-700 border border-yellow-200"
+                        className="text-xs px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
                       >
                         {s}
                       </span>
@@ -294,31 +293,14 @@ const Aloqa = () => {
         </motion.div>
       </div>
 
-      {/* Social & Map placeholder */}
+      {/* Footer */}
       <motion.div
         variants={itemVariants}
-        className="bg-white border-t border-gray-100"
+        className="border-t border-gray-800/60 bg-[#050c1b]"
       >
-        <div className="max-w-7xl mx-auto px-4 py-12 flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div className="text-center sm:text-left">
-            <h3 className="text-lg font-bold text-gray-800">Ijtimoiy tarmoqlar</h3>
-            <p className="text-gray-500 text-sm mt-1">Bizni kuzatib boring</p>
-            <div className="flex gap-3 mt-3 justify-center sm:justify-start">
-              {['Telegram', 'Instagram', 'Facebook'].map((name) => (
-                <span
-                  key={name}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-medium text-white transition-all hover:scale-105 cursor-pointer"
-                  style={{ backgroundColor: '#031427' }}
-                >
-                  {name}
-                </span>
-              ))}
-            </div>
-          </div>
-          <div className="text-center sm:text-right">
-            <p className="text-gray-800 font-semibold">© 2026 Navbatol.uz</p>
-            <p className="text-gray-500 text-sm">Barcha huquqlar himoyalangan</p>
-          </div>
+        <div className="max-w-7xl mx-auto px-4 py-10 text-center">
+          <div className="text-sm font-bold text-white mb-1">Navbatol.uz</div>
+          <p className="text-gray-500 text-xs">© 2026 • Barcha huquqlar himoyalangan</p>
         </div>
       </motion.div>
     </motion.div>

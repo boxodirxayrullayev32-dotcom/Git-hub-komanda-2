@@ -1,7 +1,30 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
 import { Search, MapPin, Globe, Share2, X } from 'lucide-react';
+import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
+
+// Leaflet marker icon fix
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+});
+
+const fuelColors = {
+  Metan: '#10b981',
+  Benzin: '#f97316',
+};
+
+function MapController({ center, zoom }) {
+  const map = useMap();
+  useEffect(() => {
+    map.flyTo(center, zoom || 6.5, { duration: 1 });
+  }, [center, zoom, map]);
+  return null;
+}
 
 // ============================================================
 // O'ZBEKISTON BO'YLAB 100+ METAN VA BENZIN SHOXOBCHALARI
@@ -155,10 +178,6 @@ const Home = () => {
     }
   }, [searchQuery]);
 
-  const getMarkerOptions = (type) => ({
-    preset: type === 'Metan' ? 'islands#greenCircleIcon' : 'islands#orangeCircleIcon',
-    iconImageSize: [36, 36],
-  });
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
@@ -237,7 +256,7 @@ const Home = () => {
         </div>
       </div>
 
-      {/* ===== YANDEX MAP ===== */}
+      {/* ===== LEAFLET MAP ===== */}
       <section className="max-w-7xl mx-auto px-4 pb-10">
         <div className="bg-gradient-to-b from-[#0f1f3d] to-[#0b1b3d]/60 border border-gray-800/70 rounded-3xl p-4 md:p-5 shadow-2xl shadow-black/30">
 
@@ -307,25 +326,20 @@ const Home = () => {
           {/* Map */}
           <div className="w-full rounded-2xl overflow-hidden border border-gray-700/50 relative" style={{ height: '540px' }}>
             <div className="absolute inset-0 bg-[#071126]/30 z-10 pointer-events-none"></div>
-            <YMaps query={{ lang: 'ru_RU' }}>
-              <Map
-                state={{ center: mapCenter, zoom: mapZoom }}
-                width="100%"
-                height="100%"
-                modules={['control.ZoomControl', 'control.FullscreenControl']}
-                options={{ suppressMapOpenBlock: true }}
-              >
-                {filteredStations.map((station) => (
-                  <Placemark
-                    key={station.id}
-                    geometry={station.coordinates}
-                    properties={{ hintContent: `${station.name} — ${station.type}` }}
-                    options={getMarkerOptions(station.type)}
-                    onClick={() => setSelectedStation(station)}
-                  />
-                ))}
-              </Map>
-            </YMaps>
+            <MapContainer center={mapCenter} zoom={mapZoom} style={{ height: '100%', width: '100%' }} scrollWheelZoom={true}>
+              <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+              <MapController center={mapCenter} zoom={mapZoom} />
+              {filteredStations.map((station) => (
+                <Marker
+                  key={station.id}
+                  position={station.coordinates}
+                  eventHandlers={{ click: () => setSelectedStation(station) }}
+                />
+              ))}
+            </MapContainer>
 
             {/* Station popup */}
             {selectedStation && (
@@ -394,7 +408,7 @@ const Home = () => {
           <div className="text-[9px] text-gray-500 mt-0.5">JAMI SHOXOBCHALAR</div>
         </div>
         <div className="bg-[#0b1b3d]/30 border border-gray-800/60 rounded-2xl p-4 text-center">
-          <div className="text-2xl font-extrabold text-blue-400">14</div>
+          <div className="text-2xl font-extrabold text-blue-400">12</div>
           <div className="text-[9px] text-gray-500 mt-0.5">VILOYAT</div>
         </div>
         <div className="bg-[#0b1b3d]/30 border border-gray-800/60 rounded-2xl p-4 text-center">
@@ -413,7 +427,7 @@ const Home = () => {
           <span className="flex items-center gap-1.5 shrink-0"><span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>{stationsData.length} ta shoxobcha</span>
           <span className="flex items-center gap-1.5 shrink-0"><span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>{stationsData.filter(s => s.type === 'Metan').length} ta Metan</span>
           <span className="flex items-center gap-1.5 shrink-0"><span className="w-1.5 h-1.5 rounded-full bg-orange-400"></span>{stationsData.filter(s => s.type === 'Benzin').length} ta Benzin</span>
-          <span className="flex items-center gap-1.5 shrink-0"><span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>14 ta viloyat</span>
+          <span className="flex items-center gap-1.5 shrink-0"><span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>12 ta viloyat</span>
           <span className="flex items-center gap-1.5 shrink-0"><span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>Real vaqt rejimi</span>
         </div>
       </section>
@@ -423,7 +437,7 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
           <div>
             <div className="text-sm font-bold text-white mb-1">Gaz Navbat Tizimi</div>
-            <div>© 2026 • {stationsData.length} ta shoxobcha, 14 ta viloyat</div>
+            <div>© 2026 • {stationsData.length} ta shoxobcha, 12 ta viloyat</div>
           </div>
           <div className="flex items-center gap-5 font-medium">
             <a href="#" className="hover:text-white transition-colors">Xavfsizlik</a>

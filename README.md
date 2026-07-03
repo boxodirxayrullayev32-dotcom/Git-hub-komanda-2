@@ -8,8 +8,7 @@ Figma dizayn asosida 8 sahifali React loyihasi.
 |---|------|-------|--------|
 | 1 | Home | `/` | Azamat |
 | 2 | Zapravkalar Katalogi | `/zapravkalar` | Mansur |
-| 3 | Zapravka Batafsil | `/zapravka/:id` | Aziz |
-| 4 | Navbat Olish | `/navbat-olish` | Azamat |
+| 3 | Navbat Olish | `/navbat-olish` | Azamat |
 | 5 | Mening Navbatlarim | `/mening-navbatlarim` | Boxodir |
 | 6 | Navbat Tasdiqlash | `/navbat-tasdiqlash` | Mansur |
 | 7 | Narxlar | `/narxlar` | Aziz |
@@ -19,7 +18,7 @@ Figma dizayn asosida 8 sahifali React loyihasi.
 
 - **Azamat** → `Azamat.md` — Home + Navbat Olish
 - **Mansur** → `Mansur.md` — Zapravkalar Katalogi + Navbat Tasdiqlash
-- **Aziz** → `Aziz.md` — Zapravka Batafsil + Narxlar
+- **Aziz** → `Aziz.md` — Narxlar
 - **Boxodir** → `Boxodir.md` — Mening Navbatlarim + Aloqa
 
 ## Ishlash tartibi

@@ -1,99 +1,235 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useQueue } from '../context/QueueContext';
 
 const NavbatTasdiqlash = () => {
   const navigate = useNavigate();
-  const [isConfirmed, setIsConfirmed] = useState(false);
-  const [formData, setFormData] = useState({
-    model: 'Gentra',
-    number: '01 A 777 AA',
-    fuel: 'Metan (CNG)'
+  const location = useLocation();
+  const { addQueue } = useQueue();
+  const [confirmed, setConfirmed] = useState(false);
+  const [isRedirecting, setIsRedirecting] = useState(false);
+
+  const booking = location.state?.booking;
+
+  useEffect(() => {
+    if (!booking) {
+      navigate('/navbat-olish', { replace: true });
+    }
+  }, [booking, navigate]);
+
+  if (!booking) return null;
+
+  const handleConfirm = () => {
+    addQueue(booking);
+    setConfirmed(true);
+    setIsRedirecting(true);
+    setTimeout(() => {
+      navigate('/mening-navbatlarim');
+    }, 2000);
+  };
+
+  const handleCancel = () => {
+    navigate('/navbat-olish', { replace: true });
+  };
+
+  if (confirmed) {
+    return (
+      <div className="min-h-screen bg-[#071126] flex items-center justify-center p-6">
+        <div className="text-center animate-fadeIn">
+          <div className="w-24 h-24 rounded-full bg-emerald-500/20 flex items-center justify-center mx-auto mb-6 animate-bounce">
+            <svg className="w-12 h-12 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+            </svg>
+          </div>
+          <h2 className="text-3xl font-bold text-white mb-2">Navbat tasdiqlandi!</h2>
+          <p className="text-gray-400 mb-8">
+            {isRedirecting ? "Navbatlaringiz sahifasiga o'tkazilmoqda..." : 'Sizning navbatingiz muvaffaqiyatli band qilindi.'}
+          </p>
+          <div className="w-8 h-8 border-4 border-emerald-500/30 border-t-emerald-400 rounded-full animate-spin mx-auto"></div>
+        </div>
+      </div>
+    );
+  }
+
+  const fuelEmojis = {
+    Metan: '💨',
+    Propan: '🔥',
+    Benzin: '⚡',
+  };
+
+  const fuelColors = {
+    Metan: 'from-emerald-500/20 to-emerald-600/10 border-emerald-500/30 text-emerald-400',
+    Propan: 'from-orange-500/20 to-orange-600/10 border-orange-500/30 text-orange-400',
+    Benzin: 'from-blue-500/20 to-blue-600/10 border-blue-500/30 text-blue-400',
+  };
+
+  const stationImages = {
+    'Chilonzor CTG': '🏪',
+    'Yunusobod Eco': '🌿',
+    'Sergeli Car': '🚗',
+    'Yashnobod Pro': '🏭',
+  };
+
+  const bookingId = `#NB-${String(booking.id).slice(-6)}`;
+  const currentDate = new Date().toLocaleDateString('uz-UZ', {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric',
   });
 
-  return (
-    <div className="flex h-screen bg-[#0b1120] text-white font-sans">
-      <aside className="w-64 border-r border-[#1e293b] p-6 flex flex-col justify-between bg-[#0b1120]">
-        <div>
-          <h1 className="text-xl font-bold mb-10 text-white">Gaz Navbat <span className="block text-xs text-gray-500 font-normal">Elektron navbat tizimi</span></h1>
-          <nav className="space-y-2">
-            {['Bosh sahifa', 'Zapravkalar', 'Mening navbatim', 'Narxlar', 'Aloqa'].map((item) => (
-              <div key={item} className={`p-3 rounded-lg cursor-pointer ${item === 'Mening navbatim' ? 'bg-[#22c55e]/20 text-[#22c55e]' : 'text-gray-400 hover:bg-[#1e293b]'}`}>
-                {item}
-              </div>
-            ))}
-          </nav>
-        </div>
-      </aside>
+  const waitMinutes = Math.floor(Math.random() * 14) + 2;
+  const estimatedTime = new Date();
+  estimatedTime.setMinutes(estimatedTime.getMinutes() + waitMinutes);
+  const estimatedTimeStr = estimatedTime.toLocaleTimeString('uz-UZ', { hour: '2-digit', minute: '2-digit' });
 
-      <main className="flex-1 p-12 flex items-center justify-center overflow-y-auto">
-        {!isConfirmed ? (
-          <div className="bg-[#111827] p-10 rounded-3xl border border-[#1e293b] w-full max-w-md shadow-2xl">
-            <h2 className="text-2xl font-bold mb-6 text-center">Navbatga yozilish</h2>
-            <div className="space-y-5">
-              <div>
-                <label className="text-gray-400 text-sm mb-2 block">Avtomobil modeli</label>
-                <select className="w-full p-4 bg-[#0b1120] rounded-xl border border-[#1e293b] outline-none focus:border-[#22c55e]"
-                        value={formData.model} onChange={(e) => setFormData({...formData, model: e.target.value})}>
-                  <option>Gentra</option><option>Cobalt</option><option>Lacetti</option><option>Tracker</option>
-                </select>
+  return (
+    <div className="min-h-screen bg-[#071126] text-white font-sans">
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl"></div>
+      </div>
+
+      <div className="relative max-w-2xl mx-auto px-4 py-8 md:py-12">
+        <button
+          onClick={handleCancel}
+          className="flex items-center gap-2 text-gray-400 hover:text-white transition mb-6 group"
+        >
+          <svg className="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+          </svg>
+          <span className="text-sm font-medium">Orqaga</span>
+        </button>
+
+        <div className="text-center mb-8 md:mb-10">
+          <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center mx-auto mb-5 shadow-lg shadow-emerald-500/20">
+            <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+            Navbatni tasdiqlang
+          </h1>
+          <p className="text-gray-500 mt-2 text-sm">
+            Ma'lumotlaringizni tekshirib, navbatni tasdiqlang
+          </p>
+        </div>
+
+        <div className="bg-gradient-to-b from-[#0e1a33] to-[#0b1428] rounded-3xl border border-gray-800/60 shadow-2xl overflow-hidden">
+          <div className="bg-gradient-to-r from-emerald-500/10 to-transparent p-6 md:p-8 border-b border-gray-800/40">
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400/20 to-emerald-600/10 border border-emerald-500/20 flex items-center justify-center text-2xl flex-shrink-0">
+                {stationImages[booking.station] || '⛽'}
               </div>
               <div>
-                <label className="text-gray-400 text-sm mb-2 block">Davlat raqami</label>
-                <input className="w-full p-4 bg-[#0b1120] rounded-xl border border-[#1e293b] uppercase outline-none focus:border-[#22c55e]"
-                       placeholder="01 A 777 AA" value={formData.number} onChange={(e) => setFormData({...formData, number: e.target.value})} />
+                <h2 className="text-xl font-bold text-white">{booking.station}</h2>
+                <p className="text-sm text-gray-400 mt-0.5">
+                  {booking.station === 'Chilonzor CTG' && 'Chilonzor 9-kvartal'}
+                  {booking.station === 'Yunusobod Eco' && 'Yunusobod 19-kvartal'}
+                  {booking.station === 'Sergeli Car' && 'Sergeli-5'}
+                  {booking.station === 'Yashnobod Pro' && 'Yashnobod tuzel'}
+                </p>
               </div>
+            </div>
+          </div>
+
+          <div className="p-6 md:p-8 space-y-6">
+            <div className="flex justify-between items-center bg-[#071126]/50 rounded-xl px-4 py-3 border border-gray-800/40">
               <div>
-                <label className="text-gray-400 text-sm mb-2 block">Yoqilg'i turi</label>
-                <select className="w-full p-4 bg-[#0b1120] rounded-xl border border-[#1e293b] outline-none focus:border-[#22c55e]"
-                        value={formData.fuel} onChange={(e) => setFormData({...formData, fuel: e.target.value})}>
-                  <option>Metan (CNG)</option><option>Propan (LPG)</option><option>Benzin</option>
-                </select>
+                <span className="text-[10px] text-gray-500 uppercase tracking-wider font-bold">Navbat ID</span>
+                <p className="text-white font-bold text-lg tracking-wider">{bookingId}</p>
               </div>
-              <button onClick={() => setIsConfirmed(true)} className="w-full py-4 bg-[#22c55e] hover:bg-[#1ea64d] rounded-xl font-bold text-lg transition shadow-lg">
+              <div className="text-right">
+                <span className="text-[10px] text-gray-500 uppercase tracking-wider font-bold">Sana</span>
+                <p className="text-white font-semibold text-sm">{currentDate}</p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="bg-[#071126]/30 rounded-xl p-4 border border-gray-800/30">
+                <span className="text-[10px] text-gray-500 uppercase tracking-wider font-bold block mb-1">Avtomobil</span>
+                <p className="text-white font-bold text-lg flex items-center gap-2">
+                  <svg className="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
+                  </svg>
+                  {booking.model}
+                </p>
+              </div>
+
+              <div className="bg-[#071126]/30 rounded-xl p-4 border border-gray-800/30">
+                <span className="text-[10px] text-gray-500 uppercase tracking-wider font-bold block mb-1">Davlat raqami</span>
+                <p className="text-white font-bold text-lg tracking-wider bg-gradient-to-r from-yellow-400/20 to-yellow-600/10 border border-yellow-500/20 px-3 py-1 rounded-lg inline-block font-mono">
+                  {booking.plate}
+                </p>
+              </div>
+
+              <div className={`bg-gradient-to-br rounded-xl p-4 border ${fuelColors[booking.fuel] || 'from-gray-500/20 to-gray-600/10 border-gray-500/30 text-gray-400'}`}>
+                <span className="text-[10px] text-gray-400 uppercase tracking-wider font-bold block mb-1">Yoqilg'i</span>
+                <p className="font-bold text-lg flex items-center gap-2">
+                  <span>{fuelEmojis[booking.fuel] || '⛽'}</span>
+                  {booking.fuel}
+                </p>
+              </div>
+
+              <div className="bg-[#071126]/30 rounded-xl p-4 border border-gray-800/30">
+                <span className="text-[10px] text-gray-500 uppercase tracking-wider font-bold block mb-1">Kolonka</span>
+                <p className="text-white font-bold text-lg flex items-center gap-2">
+                  <span className="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-sm text-emerald-400 font-bold">
+                    {booking.kolonka}
+                  </span>
+                  <span className="text-sm text-emerald-400 font-medium">Tez</span>
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-xl p-5 border border-blue-500/20">
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] text-gray-400 uppercase tracking-wider font-bold block mb-1">Yetib kelish vaqti</span>
+                  <p className="text-2xl font-bold text-white">{booking.time}</p>
+                </div>
+                <div className="text-right">
+                  <span className="text-[10px] text-gray-400 uppercase tracking-wider font-bold block mb-1">Taxminiy navbat</span>
+                  <p className="text-lg font-bold text-emerald-400">{estimatedTimeStr}</p>
+                  <p className="text-xs text-gray-500 mt-0.5">~{waitMinutes} min kutish</p>
+                </div>
+              </div>
+              <div className="mt-4 w-full bg-gray-800/50 rounded-full h-2 overflow-hidden">
+                <div className="bg-gradient-to-r from-emerald-500 to-emerald-400 h-2 rounded-full animate-pulse" style={{ width: `${Math.min(100, waitMinutes * 7)}%` }}></div>
+              </div>
+            </div>
+
+            <div className="space-y-3 pt-2">
+              <button
+                onClick={handleConfirm}
+                className="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-white font-bold py-4 rounded-xl text-base transition-all shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30 active:scale-[0.98] flex items-center justify-center gap-2"
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                </svg>
                 Navbatni tasdiqlash
               </button>
+              <div className="flex gap-3">
+                <button
+                  onClick={handleCancel}
+                  className="flex-1 bg-gray-800/60 hover:bg-gray-700/60 text-gray-300 font-semibold py-3.5 rounded-xl text-sm transition-all border border-gray-700/50 hover:border-gray-600/50"
+                >
+                  Bekor qilish
+                </button>
+                <button
+                  onClick={handleCancel}
+                  className="flex-1 bg-[#0b1b3d]/60 hover:bg-[#0b1b3d] text-blue-400 font-semibold py-3.5 rounded-xl text-sm transition-all border border-blue-500/20 hover:border-blue-500/30"
+                >
+                  O'zgartirish
+                </button>
+              </div>
             </div>
           </div>
-        ) : (
-          <div className="w-full max-w-4xl animate-in fade-in duration-500">
-            <div className="text-center mb-10">
-              <div className="bg-[#22c55e]/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"><span className="text-[#22c55e] text-3xl">✔</span></div>
-              <h2 className="text-4xl font-bold mb-2">Navbat Tasdiqlandi!</h2>
-              <p className="text-gray-400">Sizning navbatingiz muvaffaqiyatli band qilindi.</p>
-            </div>
-            
-            <div className="grid grid-cols-2 gap-6">
-              <div className="bg-[#111827] p-8 rounded-2xl border border-[#1e293b]">
-                <div className="flex justify-between mb-8 text-sm text-gray-400">
-                  <div>ID KVITANSIYA<br/><span className="text-white font-bold text-lg">#GN-7772026</span></div>
-                  <div className="text-right">SANA<br/><span className="text-white font-bold text-lg">14.05.2026</span></div>
-                </div>
-                <div className="bg-white p-6 rounded-xl mx-auto w-64 h-64 mb-6 flex items-center justify-center">
-                    <img src="https://fragrant.mobiletransaction.org/wp-content/uploads/2019/09/qr-code-for-wikipedia.png.webp" alt="QR Code" />
-                </div>
-                <div className="bg-[#0b1120] p-4 rounded-xl flex justify-between items-center border border-[#1e293b]">
-                  <span className="text-gray-400">Taxminiy vaqt <b className="block text-white text-lg">15:45</b></span>
-                  <span className="text-[#22c55e] text-sm text-right">Kutilmoqda<br/>~18 min 41 sek</span>
-                </div>
-              </div>
+        </div>
 
-              <div className="bg-[#111827] p-8 rounded-2xl border border-[#1e293b]">
-                <h3 className="text-xl font-bold mb-6 flex items-center gap-2">ⓘ Tafsilotlar</h3>
-                <div className="space-y-6">
-                  <div className="flex justify-between"><span>Avtomobil</span> <span className="font-bold">{formData.model}</span></div>
-                  <div className="flex justify-between"><span>Davlat raqami</span> <span className="bg-white text-black px-3 py-1 rounded font-bold">{formData.number}</span></div>
-                  <div className="flex justify-between"><span>Yoqilg'i quyiish joyi</span> <span className="bg-[#22c55e]/20 text-[#22c55e] px-2 rounded">Bay 3 OCHIQ</span></div>
-                  <div className="flex justify-between pb-6 border-b border-[#1e293b]"><span>Yoqilg'i turi</span> <span className="font-bold">{formData.fuel}</span></div>
-                </div>
-                <div className="mt-8 space-y-3">
-                  <button onClick={() => setIsConfirmed(false)} className="w-full py-3 bg-[#1e293b] rounded-lg font-bold">✎ O'zgartirish</button>
-                  <button onClick={() => navigate('/')} className="w-full py-3 border border-red-900/50 text-red-400 rounded-lg">Bekor qilish</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      </main>
+        <p className="text-center text-gray-600 text-xs mt-6">
+          Navbatni tasdiqlash orqali siz xizmat ko'rsatish qoidalariga rozilik bildirasiz
+        </p>
+      </div>
     </div>
   );
 };

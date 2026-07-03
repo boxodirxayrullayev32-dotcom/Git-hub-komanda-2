@@ -3,10 +3,9 @@ import { NavLink } from 'react-router-dom'
 const links = [
   { to: '/', label: 'Home' },
   { to: '/zapravkalar', label: 'Zapravkalar' },
-  { to: '/zapravka/1', label: 'Batafsil' },
   { to: '/navbat-olish', label: 'Navbat Olish' },
-  { to: '/mening-navbatlarim', label: 'Navbatlarim' },
   { to: '/navbat-tasdiqlash', label: 'Tasdiqlash' },
+  { to: '/mening-navbatlarim', label: 'Navbatlarim' },
   { to: '/narxlar', label: 'Narxlar' },
   { to: '/aloqa', label: 'Aloqa' },
 ]

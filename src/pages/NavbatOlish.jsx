@@ -154,10 +154,10 @@ const NavbatOlish = () => {
     };
 
     setUserBookings([...userBookings, newBooking]);
-    addQueue(newBooking)
     setPlateNumber('');
     setCustomModel('');
-    navigate('/mening-navbatlarim')
+    // Tasdiqlash sahifasiga o'tish
+    navigate('/navbat-tasdiqlash', { state: { booking: newBooking } })
   };
 
   const handleArrived = (id) => {

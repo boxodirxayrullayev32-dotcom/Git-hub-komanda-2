@@ -2,12 +2,7 @@
 
 ## Sizga berilgan page lar / Ваши страницы:
 
-### 1. Zapravka Batafsil (`src/pages/ZapravkaBatafsil.jsx`)
-- O'zb: Yoqilg'i quyish shoxobchasi haqida batafsil UI ni Figma asosida yozing
-- Рус: Сверстать UI детальной страницы АЗС по Figma
-- Route: `/zapravka/:id`
-
-### 2. Narxlar (`src/pages/Narxlar.jsx`)
+### 1. Narxlar (`src/pages/Narxlar.jsx`)
 - O'zb: Narxlar sahifasi UI ni Figma asosida yozing
 - Рус: Сверстать UI страницы цен по Figma
 - Route: `/narxlar`

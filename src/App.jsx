@@ -7,10 +7,10 @@ import Registration from './pages/Registration'
 import Profile from './pages/Profile'
 import Home from './pages/Home'
 import ZapravkalarKatalogi from './pages/ZapravkalarKatalogi'
-import ZapravkaBatafsil from './pages/ZapravkaBatafsil'
 import NavbatOlish from './pages/NavbatOlish'
 import MeningNavbatlarim from './pages/MeningNavbatlarim'
 import NavbatTasdiqlash from './pages/NavbatTasdiqlash'
+import NotFound from './pages/NotFound'
 import Narxlar from './pages/Narxlar'
 import Aloqa from './pages/Aloqa'
 
@@ -31,7 +31,6 @@ const App = () => {
         <Route element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="zapravkalar" element={<ZapravkalarKatalogi />} />
-          <Route path="zapravka/:id" element={<ZapravkaBatafsil />} />
           <Route path="navbat-olish" element={<NavbatOlish />} />
           <Route path="mening-navbatlarim" element={<MeningNavbatlarim />} />
           <Route path="navbat-tasdiqlash" element={<NavbatTasdiqlash />} />
@@ -39,7 +38,7 @@ const App = () => {
           <Route path="aloqa" element={<Aloqa />} />
         </Route>
         <Route path="profile" element={<Profile />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </AnimatePresence>
     </QueueProvider>
